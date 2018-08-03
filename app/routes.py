@@ -56,7 +56,6 @@ def get_or_create(url):
 
 
 def generate_url(url):
-    print(type(url))
     url_path = md5(url.encode()).hexdigest()[:8]
     final_url = 'https://urlshortenr.herokuapp.com/' + url_path
     link = Link(original_url=url, target_url=final_url)

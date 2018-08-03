@@ -5,7 +5,7 @@ Shorten your urls like never before :)
 ## How to run it
 
 First and foremost, please do clone the repo with
-`git clone git@github.com:Isaac12x/test-babylonhealth.git && cd app`
+`git clone git@github.com:Isaac12x/test-babylonhealth.git && cd test-babylonhealth`
 
 Once you're in there, you should do the following:
 
@@ -17,10 +17,20 @@ Now you should be good to go. If still you can't start the app because it has so
 
 If you want to run it without docker, you should do the following (assuming you're already in the repo):
 
-```
-pip install -r requirements.txt
-uwsgi --socket 0.0.0.0:8000 --protocol=http -w main
-```
+`pip install -r requirements.txt`
+
+Set your secret key by running:
+`export SECRET_KEY=YOURKEY`
+
+and then run,
+
+`uwsgi --socket 0.0.0.0:8000 --protocol=http -w main`
+
+You should be good to go. You can either post via
+
+`curl --header "Content-Type: application/json"   --request POST   --data '{"url":"http://info.cern.ch/Proposal.html"}'   http://0.0.0.0:8000/shorten-url`
+
+Or by going in your browser to http://0.0.0.0:8000 where you will have a UI to do that. Enjoy :)
 
 ## Design decisions
 

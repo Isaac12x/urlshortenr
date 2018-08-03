@@ -19,6 +19,8 @@ RUN apk add --no-cache \
     rm /etc/nginx/conf.d/default.conf && \
     rm -r /root/.cache
 
+RUN flask db init && flask db migrate -m 'links table' && flask db upgrade
+
 # Copy the Nginx global conf
 COPY nginx.conf /etc/nginx/
 # Copy the Flask Nginx site conf
