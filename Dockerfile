@@ -5,9 +5,12 @@ LABEL description "Exercise for BabylonHealth"
 # Copy python requirements file
 COPY requirements.txt /tmp/requirements.txt
 
-RUN apk add --no-cache \
+RUN apk add --no-cache --virtual .build-deps \
     python3 \
     bash \
+    gcc \
+		libc-dev \
+		linux-headers \
     nginx \
     uwsgi \
     uwsgi-python3 \
@@ -18,8 +21,6 @@ RUN apk add --no-cache \
     pip3 install -r /tmp/requirements.txt && \
     rm /etc/nginx/conf.d/default.conf && \
     rm -r /root/.cache
-
-RUN flask db init && flask db migrate -m 'links table' && flask db upgrade
 
 # Copy the Nginx global conf
 COPY nginx.conf /etc/nginx/

@@ -30,11 +30,18 @@ def page_not_found(error):
 @app.route('/shorten-url', methods=['POST', 'GET'])
 def shorten_url():
     if request.method == 'POST':
-        if request.get_json()['url']:
+        if (request.headers['Content-Type'] == 'application/json' and
+                request.get_json()['url']):
             url = request.get_json()['url']
             assert type(url) is str
+            test = is_valid_url(url)
+            if not test:
+                return jsonify({'error': 'Not valid url scheme'}), 500
+
             link = get_or_create(url)
             return jsonify({'shortened_url': link}), 201
+        else:
+            return jsonify({'error': 'You should send a json request'}), 500
     else:
         return redirect(url_for('/'), code=302)
 
@@ -62,3 +69,16 @@ def generate_url(url):
     db.session.add(link)
     db.session.commit()
     return link
+
+
+def is_valid_url(url):
+    # taken from https://github.com/django/django/blob/master/django/core/validators.py#L74
+    import re
+    regex = re.compile(
+        r'^https?://'  # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domain...
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?'  # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    return url is not None and regex.search(url)
