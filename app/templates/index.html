@@ -11,20 +11,19 @@
       </div>
       <form class="feedback-body" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <input type="url" class="feedback-body__url" placeholder="Paste the url here" />
         {{ form.url(class="feedback-body__url", placeholder="Paste the url here" )}}
         {% for error in form.url.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
         <button class="feedback-body__submit">SHORTEN</button>
       </form>
+    </div>
 
-      <div class="link-">
-        {% if url %}
-        <a href="" noopener noreferrer>{{ url }}</a>
-        {% endif %}
+      {% if url %}
+      <div class="link-result">
+        Your url is: <a href="{{ url }}" noopener noreferrer>{{ url }}</a>
       </div>
+      {% endif %}
 
-      </div>
     </body>
 </html>

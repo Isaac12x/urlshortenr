@@ -15,6 +15,18 @@ If that doesn't work for you, please use sudo (and later fix your docker install
 
 Now you should be good to go. If still you can't start the app because it has some sort of error please do send me an email at ialbetsram@gmail.com with the error trace from your command line (pipe it into a file with `> file.txt`) and your system specs (if you're using linux/UNIX send me the output of `uname -v` and `cat /proc/version` and your docker version `docker -v`).
 
+If you want to run it without docker, you should do the following (assuming you're already in the repo):
+
+```
+pip install -r requirements.txt
+uwsgi --socket 0.0.0.0:8000 --protocol=http -w main
+```
+
+## Design decisions
+
+I have decided to use flask because of the simplicity of the task and the simplicity to set it up. It was the best tool for the job with the least technical overhead (even though I did not use Flask seriously for the last 11 months or so).
+
+
 ### Notes
 
 Since I wanted this to be more challenging I used flask (with its limitations - Werkzeug dev is not optimized to serve in productions) and then containerized the app and added a nginx to handle incoming traffic (your 1000 req/s) and then uWSGI to interface with nginx as the request server and pass that into the app layer which is done in Flask.
