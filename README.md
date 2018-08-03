@@ -28,7 +28,7 @@ and then run,
 
 You should be good to go. You can either post via
 
-`curl --header "Content-Type: application/json"   --request POST   --data '{"url":"http://info.cern.ch/Proposal.html"}'   http://0.0.0.0:8000/shorten-url`
+`curl --header "Content-Type: application/json"   --request POST   --data '{"url":"https://www.w3.org/History/1989/proposal.html}'   http://0.0.0.0:8000/shorten-url`
 
 Or by going in your browser to http://0.0.0.0:8000 where you will have a UI to do that. Enjoy :)
 
