@@ -1,10 +1,10 @@
-from app import db
+from main.app import db
 from datetime import datetime
 
 
 class Link(db.Model):
     """This class represents the links table."""
-    
+
     id = db.Column(db.Integer, primary_key=True)
     original_url = db.Column(db.String, index=True, unique=True)
     target_url = db.Column(db.String, index=True, unique=True)

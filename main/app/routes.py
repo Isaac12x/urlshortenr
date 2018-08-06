@@ -1,8 +1,8 @@
 from flask import request, redirect, render_template, url_for, jsonify
 from hashlib import md5
-from app.forms import ShortenUrlForm
-from app.models import Link
-from app import app, db
+from main.app.forms import ShortenUrlForm
+from main.app.models import Link
+from main.app import app, db
 # we first take care of the usual suspects
 
 

@@ -1,16 +1,12 @@
 FROM alpine
 
-LABEL description "Exercise for BabylonHealth"
 
 # Copy python requirements file
 COPY requirements.txt /tmp/requirements.txt
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache \
     python3 \
     bash \
-    gcc \
-		libc-dev \
-		linux-headers \
     nginx \
     uwsgi \
     uwsgi-python3 \
@@ -32,7 +28,7 @@ COPY uwsgi.ini /etc/uwsgi/
 COPY supervisord.conf /etc/supervisord.conf
 
 # Add demo app
-COPY ./ /app
-WORKDIR /app
+COPY ./ /url-shortener
+WORKDIR /url-shortener
 
 CMD ["/usr/bin/supervisord"]

@@ -9,7 +9,7 @@ First and foremost, please do clone the repo with
 
 Once you're in there, you should do the following:
 
-`docker build -t urlshortener . && docker run -p 38080:80 urlshortener`
+`docker build -t urlshortener . && docker run -p 38080:80 -e SECRET_KEY='123' urlshortener`
 
 If that doesn't work for you, please use sudo (and later fix your docker installation).
 
@@ -19,16 +19,19 @@ If you want to run it without docker, you should do the following (assuming you'
 
 `pip install -r requirements.txt`
 
-Set your secret key by running:
+Set your secret key by running as we getting it from the environment:
 `export SECRET_KEY=YOURKEY`
 
 and then run,
 
-`uwsgi --socket 0.0.0.0:8000 --protocol=http -w main`
+```
+pip install uwsgi && \
+uwsgi --socket 0.0.0.0:8082 --protocol=http -w "main.main:app"
+```
 
 You should be good to go. You can either post via
 
-`curl --header "Content-Type: application/json"   --request POST   --data '{"url":"https://www.w3.org/History/1989/proposal.html}'   http://0.0.0.0:8000/shorten-url`
+`curl --header "Content-Type: application/json"   --request POST   --data '{"url":"https://www.w3.org/History/1989/proposal.html"}'   http://0.0.0.0:8082/shorten-url`
 
 Or by going in your browser to http://0.0.0.0:8000 where you will have a UI to do that. Enjoy :)
 
