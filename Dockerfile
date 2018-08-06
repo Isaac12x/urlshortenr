@@ -1,6 +1,5 @@
 FROM alpine
 
-
 # Copy python requirements file
 COPY requirements.txt /tmp/requirements.txt
 
