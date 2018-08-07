@@ -12,7 +12,8 @@ def index():
     url = ''
     form = ShortenUrlForm()
     if form.validate_on_submit():
-        url = get_or_create(form.url.data)
+        link = get_or_create(form.url.data)
+        url = 'https://urlshortenr.herokuapp.com/' + link
         return render_template('index.html',
                                title='Url shortener service', form=form,
                                url=url)
@@ -39,22 +40,28 @@ def shorten_url():
                 return jsonify({'error': 'Not valid url scheme'}), 500
 
             link = get_or_create(url)
-            return jsonify({'shortened_url': link}), 201
+            url = 'https://urlshortenr.herokuapp.com/' + link
+            return jsonify({'shortened_url': url}), 201
         else:
             return jsonify({'error': 'You should send a json request'}), 500
     else:
         return redirect(url_for('/'), code=302)
 
 
-@app.route('/<id>')
+@app.route('/<id>', methods=['GET'])
 def resolve(id):
-    url = 'https://urlshortenr.herokuapp.com/' + id
-    ext = db.session.query(Link).filter(Link.target_url == url).scalar()
-    redirect(ext.original_url, code=301)
+    if id:
+        ext = Link.query.filter_by(target_url=id).first()
+        if ext:
+            return redirect(ext.original_url, code=301)
+        else:
+            return jsonify("We couldn't find this url"), 404
+    else:
+        redirect(url_for('/'), code=302)
 
 
 def get_or_create(url):
-    ext = db.session.query(Link).filter(Link.original_url == url).scalar()
+    ext = Link.query.filter_by(original_url=url).first()
     if not ext:
         url = generate_url(url).target_url
     else:
@@ -64,8 +71,7 @@ def get_or_create(url):
 
 def generate_url(url):
     url_path = md5(url.encode()).hexdigest()[:8]
-    final_url = 'https://urlshortenr.herokuapp.com/' + url_path
-    link = Link(original_url=url, target_url=final_url)
+    link = Link(original_url=url, target_url=url_path)
     db.session.add(link)
     db.session.commit()
     return link

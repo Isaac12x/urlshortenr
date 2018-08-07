@@ -21,10 +21,13 @@ RUN apk add --no-cache \
 COPY nginx.conf /etc/nginx/
 # Copy the Flask Nginx site conf
 COPY flask-site-nginx.conf /etc/nginx/conf.d/
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/flask-site-nginx.conf
 # Copy the base uWSGI ini file to enable default dynamic uwsgi process number
 COPY uwsgi.ini /etc/uwsgi/
 # Custom Supervisord config
 COPY supervisord.conf /etc/supervisord.conf
+
+
 
 # Add demo app
 COPY ./ /url-shortener
