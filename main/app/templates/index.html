@@ -12,6 +12,7 @@
       <form class="feedback-body" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         {{ form.url(class="feedback-body__url", placeholder="Paste the url here" )}}
+        {% if false %}{{ form.recaptcha }} {% endif %}
         {% for error in form.url.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
