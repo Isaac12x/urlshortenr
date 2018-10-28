@@ -19,6 +19,7 @@ class Link(db.Model):
 class Metadata(db.Model):
     """ This class represents the metadata of the link class"""
 
+
     # __tablename__ = 'link_meta'
 
     link_id = db.Column(db.Integer, db.ForeignKey('link.id'))
@@ -45,6 +46,7 @@ class View(db.Model):
     # __tablename__ = 'link_views'
 
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    from_page = db.Colmn(db.String, index=True, unique=False)
     ip = db.Column(db.String, index=True, unique=False)
     ip_location = db.Column(db.string, index=True, unique=False)
 

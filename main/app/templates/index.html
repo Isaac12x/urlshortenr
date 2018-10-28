@@ -5,26 +5,56 @@
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
     </head>
     <body>
-      <div class="feedback-card">
-      <div class="feedback-header">
-        The good ol' way to shorten any url:
-      </div>
-      <form class="feedback-body" action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        {{ form.url(class="feedback-body__url", placeholder="Paste the url here" )}}
-        {% if false %}{{ form.recaptcha }} {% endif %}
-        {% for error in form.url.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        <button class="feedback-body__submit">SHORTEN</button>
-      </form>
-    </div>
+      <div class="page-wrap">
+        <div class="feedback-card">
+          <div class="feedback-header">
+            The good ol' way to shorten any url:
+          </div>
+          <form class="feedback-body" action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.url(class="feedback-body__url", placeholder="Paste the url here" )}}
+            {% if false %}{{ form.recaptcha }} {% endif %}
+            {% for error in form.url.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            <button class="feedback-body__submit">SHORTEN</button>
+          </form>
+        </div>
 
-      {% if url %}
-      <div class="link-result">
-        Your url is: <a href="{{ url }}" noopener noreferrer>{{ url }}</a>
+        {% if url %}
+        <div class="link-result">
+          Your url is: <a href="{{ url }}" noopener noreferrer>{{ url }}</a>
+        </div>
+        {% endif %}
+        <aside class="sidebar">
+         <div class="sidebar-toggle"></div>
+       </aside>
       </div>
-      {% endif %}
+      <script>
+      (function() {
+          var $sidebar, $sidebarToggle, $videowrap, toggleSidebar;
 
+          $videowrap = $('.video-wrap');
+
+          $sidebar = $('.sidebar');
+
+          $sidebarToggle = $('.sidebar-toggle');
+
+          toggleSidebar = function() {
+            $sidebar.toggleClass('expanded');
+            return $videowrap.toggleClass('expanded');
+          };
+
+          $sidebarToggle.on('click', function() {
+            return toggleSidebar();
+          });
+
+          Mousetrap.bind('right', function() {
+            return toggleSidebar();
+          });
+
+          }).call(this);
+      </script>
+      <!-- sidebar from https://codepen.io/kaimallea/pen/yvzHj -->
     </body>
 </html>

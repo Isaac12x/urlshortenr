@@ -65,6 +65,8 @@ def get_or_create(url):
     if not ext:
         url = generate_url(url).target_url
     else:
+        if url.allowed_more_than_one_view == False:
+            redirect(url_for('/'), code=400)
         url = ext.target_url
     return url
 

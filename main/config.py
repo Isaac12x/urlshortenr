@@ -1,6 +1,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+URL=""
+
 
 class Config(object):
     DEBUG = False
