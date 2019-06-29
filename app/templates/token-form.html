@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">Generate a new tokenURI fork your Artwork</h1>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  {% for field in form %}
+  {% if field() == form.submit() %}
+  {% elif field() == form.hidden_tag() %}
+  {% elif field() == form.thumbnail_url() or field() == form.image_url() %}
+  <div class="field">
+    <div class="control">
+      {{ field.label }}
+      {{ field(class_="input is-primary",  pattern="*") | safe }}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+
+  {% elif field() == form.description() or field() == form.artist_description() or field() == form.notes() %}
+  <div class="field">
+    <div class="control">
+      {{ field.label }}
+      {{ field(class_="textarea is-hovered") | safe }}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+  {% elif field() == form.artwork_type() %}
+  <div class="field">
+    <div class="control">
+      {{ field.label }}
+    </div>
+
+    <div class="select">
+      {{ field(class_="select is-primary") | safe }}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+  {% elif field() == form.printings() or field() == form.price() %}
+  <div class="field">
+    <div class="control">
+      {{field.label}}
+      {{field(class_="input is-primary", type="number", min="0", max="9999999999999999999") | safe}}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+  {% elif field() == form.physical_copy() %}
+  <div class="field">
+    <div class="checkbox">
+      {{field.label}}
+      {{ field(class_="checkbox" ) | safe}}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+
+  {% elif field() == form.date_created() %}
+  <div class="field">
+    <div class="control">
+      {{ field.label }}
+      {{ field(class_="input is-primary", type="date") | safe}}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;"> [{{ error }}]</span>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="field">
+    <div class="control">
+      {{ field.label }}
+      {{ field(class_="input is-primary") | safe }}
+    </div>
+    {% for error in field.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </div>
+
+
+  {% endif %}
+  {% endfor %}
+  <div class="columns">
+    <div class="column">
+      {{ form.submit(class_="button") }}
+
+    </div>
+
+  </div>
+</form>
+
+{% endblock %}

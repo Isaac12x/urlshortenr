@@ -1,0 +1,48 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% endif %}
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+    </head>
+    <body>
+      <div class="container">
+
+      <div class="columns">
+        <div class="column"></div></div>
+        <div class="columns">
+          <div class="column"></div>
+          <div class="column is-two-thirds">
+            {% block content %}{% endblock %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="tile is-ancestor">
+              <div class="tile is-vertical">
+                <div class="tile">
+                  <div class="tile is-parent is-vertical">
+                    <article class="tile is-child notification is-primary">
+                          {% for message in messages %}
+
+                      <p class="title">Here's your tokenURI</p>
+                      <p class="subtitle">{{ message }}</p>
+                      {% endfor %}
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+          </div>
+
+
+          <div class="column"></div>
+
+
+      </div>
+
+    </div>
+
+    </body>
+</html>
