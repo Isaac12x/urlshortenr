@@ -1,33 +1,8 @@
 version: '3'
 services:
- db-postgres:
-   image: postgres:11.2-alpine
-   restart: always
-   environment:
-     - POSTGRES_DB=flask-deploy
-     - POSTGRES_USER=db_user
-     - POSTGRES_PASSWORD=db_password
-   volumes:
-     - ./data:/docker-entrypoint-initdb.d/
-     - ./postgres:/var/lib/postgresql/data
-   ports:
-     - 5432:5432
-
- migration:
-   build: .
-   restart: on-failure
-   environment:
-     - APP_ENV=${APP_ENV}
-   command: flask db upgrade
-   depends_on:
-     - db-postgres
-
  app:
    build: .
    ports:
-    - "5000:5000"
+    - "80:8000"
    environment:
      - APP_ENV=${APP_ENV}
-   depends_on:
-     - db-postgres
-     - migration
